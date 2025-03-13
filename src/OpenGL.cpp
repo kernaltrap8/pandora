@@ -1,19 +1,23 @@
 #include "Pandora.hpp"
 
-std::string vertexShaderSource;
-std::string fragmentShaderSource;
+const char *vertexShaderSource;
+const char *fragmentShaderSource;
 
 namespace Core {
 namespace GL {
-std::string readShaderSource(const std::string& filename) {
-  std::ifstream Shader(filename);
-  if (!Shader) {
-    throw std::runtime_error("Failed to open shader source: " + filename);
-  }
+  std::string readShaderSource(const std::string& filename) {
+    std::ifstream Shader(filename);
+    if (!Shader) {
+        throw std::runtime_error("Failed to open shader source: " + filename);
+    }
 
-  std::ostringstream shaderBuffer;
-  shaderBuffer << shaderBuffer.rdbuf();
-  return shaderBuffer.str();
+    std::ostringstream shaderBuffer;
+    shaderBuffer << Shader.rdbuf();
+    std::string shaderSource = shaderBuffer.str();
+
+    std::cout << "Shader Source:\n" << shaderSource << std::endl;
+
+    return shaderSource;
 }
 GLuint compileShader(GLenum type, const char *source) {
   GLuint shader = glCreateShader(type);
